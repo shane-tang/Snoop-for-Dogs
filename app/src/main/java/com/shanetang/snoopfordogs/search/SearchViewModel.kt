@@ -5,6 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SearchViewModel : ViewModel() {
-    private val _zipcode = MutableLiveData<Int>()
-    val zipcode: LiveData<Int> = _zipcode
+    private val _zipcode = MutableLiveData<String>("")
+    val zipcode: LiveData<String> = _zipcode
+
+    fun setZipcode(value: String) {
+        _zipcode.value = value
+    }
 }

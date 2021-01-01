@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,12 +27,13 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: SearchLayoutBinding = DataBindingUtil.inflate(inflater, R.layout.search_layout, container, false)
+        binding.zipcode.addTextChangedListener { viewModel.setZipcode(it.toString()) }
         binding.searchButton.setOnClickListener { performSearch() }
         return binding.root
     }
 
     private fun isValid(): Boolean {
-        return viewModel.zipcode.value != null
+        return viewModel.zipcode.value != ""
     }
 
     private fun performSearch() {
