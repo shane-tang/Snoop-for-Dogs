@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Font Sizes  -->
+    <dimen name="font_size">14sp</dimen>
+    <dimen name="font_size_button">16sp</dimen>
+
+    <!--  Dimensions  -->
+    <dimen name="padding_xsmall">8dp</dimen>
+    <dimen name="padding_small">16dp</dimen>
+    <dimen name="padding_medium">24dp</dimen>
+    <dimen name="padding_large">32dp</dimen>
+
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_padding">8dp</dimen>
+</resources>

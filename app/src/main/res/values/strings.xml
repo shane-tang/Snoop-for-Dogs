@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Snoop for Dogs</string>
+
+    <string name="zipcode_hint">Enter a zipcode to search</string>
+    <string name="search">Search</string>
 </resources>
