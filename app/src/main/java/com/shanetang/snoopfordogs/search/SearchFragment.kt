@@ -9,8 +9,12 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.shanetang.domain.SearchRepository
 import com.shanetang.snoopfordogs.R
 import com.shanetang.snoopfordogs.databinding.SearchLayoutBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
     private lateinit var viewModel: SearchViewModel
@@ -38,9 +42,17 @@ class SearchFragment : Fragment() {
 
     private fun performSearch() {
         if (isValid()) {
+            getTodos()
             Toast.makeText(context, "Search coming soon!", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, "Zipcode is required!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getTodos() {
+        CoroutineScope(IO).launch {
+            val todos = SearchRepository().getTodos()
+            print(todos)
         }
     }
 
