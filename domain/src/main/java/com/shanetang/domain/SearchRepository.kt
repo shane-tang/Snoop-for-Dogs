@@ -1,14 +1,20 @@
 package com.shanetang.domain
 
-import retrofit2.Response
-
-
 class SearchRepository {
+    private val mapper = AnimalMapper()
     private val service = RescueServiceBuilder().buildService(RescueApi::class.java)
 
-    suspend fun getTodos(): Response<Result> {
-        val response = service.getTodos()
-        return response
+    // at the API layer we make a POST request, but really it's more reflective of a GET,
+    // so internally we're calling it "get." i think future API versions are changing the
+    // endpoint to a GET request
+    suspend fun getDogs(apikey: String, filters: List<Filter>): SearchState {
+        val response = service.postSearch(
+            Body(
+                apikey = apikey,
+                filters = filters,
+            )
+        )
+        return mapper.responseToState(response)
     }
 
 }

@@ -9,7 +9,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.shanetang.domain.Filter
 import com.shanetang.domain.SearchRepository
+import com.shanetang.snoopfordogs.BuildConfig
 import com.shanetang.snoopfordogs.R
 import com.shanetang.snoopfordogs.databinding.SearchLayoutBinding
 import kotlinx.coroutines.CoroutineScope
@@ -40,19 +42,27 @@ class SearchFragment : Fragment() {
         return viewModel.zipcode.value != ""
     }
 
+    private fun constructFilters() = listOf(
+        Filter("animalStatus", "notequal", "adopted"),
+        Filter("animalSpecies", "equals", "dog"),
+        Filter("animalUpdatedDate", "greaterthan", "9/1/2020"),
+        Filter("animalLocation", "equals", viewModel.zipcode.value ?: ""),
+        Filter("animalLocationDistance", "radius", "1000"),
+    )
+
     private fun performSearch() {
         if (isValid()) {
-            getTodos()
-            Toast.makeText(context, "Search coming soon!", Toast.LENGTH_SHORT).show()
+            getDogs()
         } else {
             Toast.makeText(context, "Zipcode is required!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun getTodos() {
+    private fun getDogs() {
         CoroutineScope(IO).launch {
-            val todos = SearchRepository().getTodos()
-            print(todos)
+            val filters = constructFilters()
+            val result = SearchRepository().getDogs(BuildConfig.RESCUE_KEY, filters)
+            print(result)
         }
     }
 

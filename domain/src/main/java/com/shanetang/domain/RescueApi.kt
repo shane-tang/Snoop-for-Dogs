@@ -1,12 +1,19 @@
 package com.shanetang.domain
 
 import retrofit2.Response
-import retrofit2.http.GET
+import retrofit2.http.Body
+import retrofit2.http.POST
 
-data class Result(val id: Int, val userId: Int, val title: String, val completed: Boolean)
-data class Todo(val results: List<Result>)
+data class Result(
+    val status: String,
+    val message: String?,
+    val data: Map<String, AnimalResponse>?,
+    val foundRows: Int?,
+)
 
 interface RescueApi {
-    @GET("/todos/1")
-    suspend fun getTodos(): Response<Result>
+    @POST("/http/v2.json")
+    suspend fun postSearch(
+        @Body body: com.shanetang.domain.Body
+    ): Response<Result>
 }

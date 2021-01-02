@@ -2,6 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+ext.apikeyPropertiesFile = rootProject.file("apikey.properties")
+ext.apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
@@ -21,6 +25,10 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        // TODO: optimally the api key will only be pulled at the domain layer, but I don't know of
+        // a clean way to make something similar to BuildConfig.foo in a non-android gradle module
+        buildConfigField("String", "RESCUE_KEY", apikeyProperties["RESCUE_KEY"])
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

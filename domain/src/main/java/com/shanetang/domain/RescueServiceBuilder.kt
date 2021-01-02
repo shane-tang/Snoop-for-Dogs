@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RescueServiceBuilder {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://jsonplaceholder.typicode.com/")
+        .baseUrl("https://api.rescuegroups.org")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

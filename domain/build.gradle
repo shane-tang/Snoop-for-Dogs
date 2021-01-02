@@ -7,6 +7,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'joda-time:joda-time:2.10.9'
 }
 
 sourceCompatibility = "1.8"
