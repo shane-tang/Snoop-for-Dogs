@@ -1,4 +1,4 @@
-package com.shanetang.domain
+package com.shanetang.data
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

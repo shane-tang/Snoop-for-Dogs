@@ -1,6 +1,6 @@
-package com.shanetang.domain
+package com.shanetang.data.api
 
-data class Body(
+data class SearchBody(
     val apikey: String,
     val objectType: String = "animals",
     val objectAction: String = "publicSearch",
@@ -21,10 +21,4 @@ data class Search(
         "animalPictures",
         "animalLocationDistance",
     ),
-)
-
-data class Filter(
-    val fieldName: String,
-    val operation: String,
-    val criteria: String,
 )

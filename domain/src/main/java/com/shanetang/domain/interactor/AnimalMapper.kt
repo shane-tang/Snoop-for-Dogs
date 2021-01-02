@@ -1,24 +1,24 @@
-package com.shanetang.domain
+package com.shanetang.domain.interactor
 
+import com.shanetang.domain.models.SearchResults
+import com.shanetang.domain.models.Animal
+import com.shanetang.domain.models.AnimalPicture
+import com.shanetang.data.api.Result
 import org.joda.time.LocalDate
 import org.joda.time.Months
 import org.joda.time.Years
 import org.joda.time.format.DateTimeFormat
 import retrofit2.Response
-import java.util.*
 import kotlin.collections.ArrayList
 
 class AnimalMapper {
-    private val date = Date()
-    private val today = date
-
     /**
      * GIVEN: a birthday of format MM/dd/yyyy
      * RETURN: current age in years. if under a year old, current age in months. can be null
      * I really don't like how this works and it feels kinda hacky. Maybe there's a better
      * way to go about this using joda?
      */
-    fun birthdayToAge(birthday: String?): String? {
+    private fun birthdayToAge(birthday: String?): String? {
         if (birthday.isNullOrEmpty()) {
             return null
         }
@@ -30,17 +30,19 @@ class AnimalMapper {
         return Months.monthsBetween(date, now).months.toString() + " months old"
     }
 
-    fun responseToState(response: Response<Result>): SearchState {
+    fun responseToResults(response: Response<Result>): SearchResults {
         // HTTP errors
         if (!response.isSuccessful) {
-            return SearchState.Error("${response.code()} ${response.message()}")
+            return SearchResults.Error("${response.code()} ${response.message()}")
         }
 
         val body = response.body()!!
 
         // API returning errors
         if (body.status != "ok") {
-            return SearchState.Error(body.message ?: "An API error occurred")
+            return SearchResults.Error(
+                body.message ?: "An API error occurred"
+            )
         }
 
         val animals = ArrayList<Animal>()
@@ -49,13 +51,18 @@ class AnimalMapper {
                 Animal(
                     id = it.value.animalID,
                     name = it.value.animalName,
-                    pictures = it.value.animalPictures,
                     distance = it.value.animalLocationDistance,
                     age = birthdayToAge(it.value.animalBirthdate),
+                    pictures = it.value.animalPictures?.map { pic ->
+                        AnimalPicture(
+                            urlFullsize = pic.urlSecureFullsize,
+                            urlThumbnail = pic.urlSecureThumbnail
+                        )
+                    }
                 )
             )
         }
-        return SearchState.Successful(animals, body.foundRows)
+        return SearchResults.Successful(animals, body.foundRows ?: -1)
     }
 }
 

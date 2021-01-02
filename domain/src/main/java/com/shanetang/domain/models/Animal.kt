@@ -1,4 +1,4 @@
-package com.shanetang.domain
+package com.shanetang.domain.models
 
 data class Animal(
     val id: String,
@@ -6,4 +6,9 @@ data class Animal(
     val pictures: List<AnimalPicture>?,
     val distance: Int?,
     val age: String?,
+)
+
+data class AnimalPicture(
+    val urlFullsize: String?,
+    val urlThumbnail: String?,
 )

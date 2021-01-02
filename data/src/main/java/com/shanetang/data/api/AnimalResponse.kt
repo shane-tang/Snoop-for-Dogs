@@ -1,4 +1,4 @@
-package com.shanetang.domain
+package com.shanetang.data
 
 data class AnimalResponse(
     val animalID: String,

@@ -1,7 +1,7 @@
 package com.shanetang.snoopfordogs
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.shanetang.snoopfordogs.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
