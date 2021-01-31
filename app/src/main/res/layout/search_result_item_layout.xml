@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/result_images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/image_fullscreen_layout" />
+
+        <ImageView
+            android:id="@+id/text_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0.5"
+            android:src="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/result_images"
+            app:layout_constraintEnd_toEndOf="@id/result_images"
+            app:layout_constraintStart_toStartOf="@id/result_images"
+            app:layout_constraintTop_toTopOf="@+id/result_name" />
+
+        <TextView
+            android:id="@+id/result_name"
+            style="@style/ImageOverlay"
+            android:layout_marginHorizontal="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            app:layout_constraintBottom_toTopOf="@+id/result_location"
+            app:layout_constraintEnd_toEndOf="@id/result_images"
+            app:layout_constraintStart_toStartOf="@id/result_images"
+            tools:text="Appa" />
+
+        <TextView
+            android:id="@+id/result_location"
+            style="@style/ImageOverlay"
+            android:layout_marginHorizontal="@dimen/padding_small"
+            android:layout_marginBottom="@dimen/padding_small"
+            app:layout_constraintBottom_toBottomOf="@+id/text_background"
+            app:layout_constraintEnd_toEndOf="@id/result_images"
+            app:layout_constraintStart_toStartOf="@id/result_images"
+            tools:text="6 miles" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

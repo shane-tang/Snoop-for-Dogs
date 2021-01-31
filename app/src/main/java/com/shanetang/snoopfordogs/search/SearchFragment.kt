@@ -10,9 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.shanetang.domain.interactor.SearchInteractor
+import com.shanetang.domain.models.SearchResults
 import com.shanetang.snoopfordogs.BuildConfig
 import com.shanetang.snoopfordogs.R
 import com.shanetang.snoopfordogs.databinding.SearchLayoutBinding
+import com.shanetang.snoopfordogs.results.ResultsFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -46,10 +48,18 @@ class SearchFragment : Fragment() {
             Toast.makeText(context, "Zipcode is required!", Toast.LENGTH_SHORT).show()
         } else {
             CoroutineScope(IO).launch {
-                interactor.searchAnimals(
+                val results = interactor.searchAnimals(
                     apikey = BuildConfig.RESCUE_KEY,
                     zipcode = viewModel.zipcode.value ?: ""
                 )
+
+                if (results is SearchResults.Successful) {
+                    parentFragmentManager
+                        .beginTransaction()
+                        .add(R.id.main_fragment, ResultsFragment.newInstance(results))
+                        .addToBackStack(null)
+                        .commit()
+                }
             }
         }
     }

@@ -1,14 +1,15 @@
 package com.shanetang.domain.interactor
 
-import com.shanetang.domain.models.SearchResults
+import com.shanetang.data.api.Result
 import com.shanetang.domain.models.Animal
 import com.shanetang.domain.models.AnimalPicture
-import com.shanetang.data.api.Result
+import com.shanetang.domain.models.SearchResults
 import org.joda.time.LocalDate
 import org.joda.time.Months
 import org.joda.time.Years
 import org.joda.time.format.DateTimeFormat
 import retrofit2.Response
+import java.util.Locale
 import kotlin.collections.ArrayList
 
 class AnimalMapper {
@@ -25,10 +26,18 @@ class AnimalMapper {
         val now = LocalDate.now()
         val date = LocalDate.parse(birthday, DateTimeFormat.forPattern("MM/dd/yyyy"))
         if (Years.yearsBetween(date, now).years > 0) {
-            return Years.yearsBetween(date, now).years.toString() + " years old"
+            val years = Years.yearsBetween(date, now).years.toString()
+            return "$years year${if (years != "1") "s" else ""} old"
         }
-        return Months.monthsBetween(date, now).months.toString() + " months old"
+        val months = Months.monthsBetween(date, now).months.toString()
+        return "$months month${if (months != "1") "s" else ""} old"
     }
+
+    private fun formatName(name: String) = (
+        name.split(" ").joinToString(" ") {
+            it.toLowerCase(Locale.getDefault()).capitalize(Locale.getDefault())
+        }
+    )
 
     fun responseToResults(response: Response<Result>): SearchResults {
         // HTTP errors
@@ -50,7 +59,7 @@ class AnimalMapper {
             animals.add(
                 Animal(
                     id = it.value.animalID,
-                    name = it.value.animalName,
+                    name = formatName(it.value.animalName),
                     distance = it.value.animalLocationDistance,
                     age = birthdayToAge(it.value.animalBirthdate),
                     pictures = it.value.animalPictures?.map { pic ->
