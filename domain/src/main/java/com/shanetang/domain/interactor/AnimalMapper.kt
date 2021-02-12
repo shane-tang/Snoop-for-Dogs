@@ -71,6 +71,7 @@ class AnimalMapper {
                 )
             )
         }
+        if (body.data.isNullOrEmpty()) return SearchResults.Empty
         return SearchResults.Successful(animals, body.foundRows ?: -1)
     }
 }

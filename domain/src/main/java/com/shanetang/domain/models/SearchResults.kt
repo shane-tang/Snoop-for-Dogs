@@ -8,4 +8,6 @@ open class SearchResults {
     ) : SearchResults()
 
     data class Error(val message: String) : SearchResults()
+
+    object Empty : SearchResults()
 }

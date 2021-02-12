@@ -13,10 +13,12 @@ class SearchRepository {
 
     suspend fun postAnimals(
         apikey: String,
+        resultStart: Int,
         filters: List<Filter>
     ): Response<Result> = service.postSearch(
         SearchBody(
             apikey = apikey,
+            resultStart = resultStart,
             filters = filters,
         )
     )

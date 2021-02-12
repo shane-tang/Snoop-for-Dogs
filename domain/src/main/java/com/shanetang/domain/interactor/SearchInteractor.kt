@@ -1,7 +1,6 @@
 package com.shanetang.domain.interactor
 
 import com.shanetang.data.api.Filter
-import com.shanetang.data.api.SearchBody
 import com.shanetang.domain.models.SearchResults
 import com.shanetang.data.repository.SearchRepository
 
@@ -11,12 +10,13 @@ class SearchInteractor {
 
     suspend fun searchAnimals(
             apikey: String,
+            resultStart: Int,
             zipcode: String,
     ) : SearchResults {
         val filters = baseFilters + listOf(
             Filter("animalLocation", "equals", zipcode)
         )
-        val response = repository.postAnimals(apikey, filters)
+        val response = repository.postAnimals(apikey, resultStart, filters)
         return mapper.responseToResults(response)
     }
 
